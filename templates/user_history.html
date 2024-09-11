@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling of the whole page */
+            position: relative;
+        }
+
+        /* Background image styling */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://img.freepik.com/premium-photo/paper-kidneys-stethoscope-pink_185193-29862.jpghttps://img.freepik.com/premium-photo/stethoscope-decorative-kidneys-gray-textured_185193-29874.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1; /* Place it behind the content */
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            margin-bottom: 20px;
+            color:white;
+        }
+
+        /* Center the table */
+        .table-container {
+            margin: 0 auto;
+            max-width: 50%; /* Adjust the maximum width as needed */
+            height: calc(100vh - 220px); /* Adjust height considering the padding and margins */
+            overflow-y: auto; /* Enable vertical scrolling */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            background-color: #fff; /* Set background color to white */
+        }
+
+        th {
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Differentiate date, time, prediction type, and result */
+        .date-time {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .prediction-result {
+            text-transform: capitalize;
+            font-style: italic;
+            font-family: 'Times New Roman', Times, serif;
+            color: green;
+        }
+
+        /* Button styling */
+        .button-container {
+            text-align: center;
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        button {
+            background-color: #010b14;
+            color: #fff;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #091e34;
+        }
+    </style>
+</head>
+<body>
+    <h1>User History</h1>
+
+    <!-- Center the table -->
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Date/Time</th>
+                <th>Prediction Result</th>
+            </tr>
+            {% for entry in history_data %}
+                <tr>
+                    <td class="date-time">{{ entry[0] }}</td>
+                    <td class="prediction-result">{{ entry[1] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Button container -->
+    <div class="button-container">
+        <!-- Go back to user page button -->
+        <a href="/user"><button>Go back to User Page</button></a>
+    </div>
+
+</body>
+</html>

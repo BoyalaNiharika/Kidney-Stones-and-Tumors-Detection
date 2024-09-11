@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Stone Detection</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            padding: 0;
+            background-image: url('https://images.ctfassets.net/jj2wf7627pjc/4tl1QujqEeOfhyeH0l3Zax/a2a160186e5de6b546155ca9c0e09f4b/What_is_a_normal_glomerular_filtration_rate__GFR_');
+            background-size: cover;
+            background-position: center;
+            color: black; /* Set text color to black */
+            text-align: center;
+        }
+
+        #main-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: bold;
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .image-container div {
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            width: 250px; /* Adjust the width as needed */
+            margin-bottom: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.5);
+        }
+        input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+        label {
+            background-color: #3498db; /* Button color */
+            font-family: 'Times New Roman', Times, serif;
+            color: #fff; /* Button text color */
+            padding: 10px 20px; /* Button padding */
+            border-radius: 5px; /* Button border radius */
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+
+        label:hover {
+            background-color: #2980b9; /* Button color on hover */
+        }
+
+        /* Styling for the label when the file input is hovered */
+        input[type="file"]:hover + label {
+            background-color: #2980b9; /* Button color when file input is hovered */
+        }
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+ font-family: 'Times New Roman', Times, serif;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+margin-bottom:20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <h1>Kidney Stone Detection</h1>
+
+        <form id="image-form" method="POST" enctype="multipart/form-data">
+            <label for="fileInput" id="fileLabel">Choose Image</label>
+            <input type="file" name="file" id="fileInput" accept="image/*" required>
+            <button type="submit">Submit</button>
+        </form>
+        <script>
+            // Get the file input and form elements
+            const fileInput = document.getElementById('fileInput');
+            const imageForm = document.getElementById('image-form');
+
+            // Add event listener to the file input
+            fileInput.addEventListener('change', () => {
+                // Disable the file input after an image is chosen
+                fileInput.disabled = true;
+                // Change the label text to indicate the image has been chosen
+                document.getElementById('fileLabel').textContent = 'Image Chosen';
+            });
+
+            // Add event listener to the form to re-enable the file input when submitted
+            imageForm.addEventListener('submit', () => {
+                // Re-enable the file input when the form is submitted
+                fileInput.disabled = false;
+                // Reset the label text
+                document.getElementById('fileLabel').textContent = 'Choose Image';
+            });
+        </script>
+        {% if predicted_label_alexnet %}
+            <h2>Predicted Label (AlexNet): {{ predicted_label_alexnet }}</h2>
+        {% endif %}
+
+        <div class="image-container">
+            <div style="display: none;" class="image-div" data-delay="1000">
+                <h3>Input Image</h3>
+                {% if input_image_base64_alexnet %}
+                    <img src="{{ url_for('static', filename='uploaded_image.jpg') }}" alt="Input Image">
+                {% endif %}
+            </div>
+
+            <div style="display: none;" class="image-div" data-delay="2000">                <h3>Grad-CAM Heatmap</h3>
+                {% if grad_cam_base64_alexnet %}
+                    <img src="{{ url_for('static', filename='grad_cam.jpg') }}" alt="Grad-CAM Heatmap">
+                {% endif %}
+            </div>
+
+            <div style="display: none;" class="image-div" data-delay="3000">                <h3>Superimposed Image</h3>
+                {% if superimposed_img_base64_alexnet %}
+                    <img src="{{ url_for('static', filename='superimposed_image.jpg') }}" alt="Superimposed Image">
+                {% endif %}
+            </div>
+        </div>
+
+        {% if predicted_label_alexnet %}
+            <h2>Predicted Label (AlexNet): {{ predicted_label_alexnet }}</h2>
+            <p>Predicted Result: {{ predicted_label_alexnet }}</p>
+        {% endif %}
+
+        <a href="/user_history"><button>Show History</button></a>
+        <a href="/login"><button>Go back to Login Page</button></a>
+    </div>
+    
+    <script>
+        // Function to display images with a delay
+        function displayImagesWithDelay() {
+            const images = document.querySelectorAll('.image-div');
+            let delay = 0;
+            const delayIncrement = 1000; // 2 seconds in milliseconds
+        
+            images.forEach(image => {
+                setTimeout(() => {
+                    image.style.display = 'block';
+                }, delay);
+                delay += delayIncrement;
+            });
+        }
+        
+        // Call the function to display images with delay
+        displayImagesWithDelay();
+        
+    </script>
+</body>
+</html>

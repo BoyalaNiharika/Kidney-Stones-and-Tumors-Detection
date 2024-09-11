@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Stone And Tumor Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            height: 100vh;
+            padding: 0;
+            background-image: url('https://img.freepik.com/premium-photo/paper-kidneys-stethoscope-pink_185193-29862.jpghttps://img.freepik.com/premium-photo/stethoscope-decorative-kidneys-gray-textured_185193-29874.jpg');
+            background-size: cover;
+            background-position: center;
+            color: black; /* Set text color to black */
+            text-align: center;
+        }
+
+        #main-container {
+            background-color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+
+        }
+
+        #upload-box {
+            max-width: 100%;
+        }
+        
+
+        #container {
+            text-align: center;
+        }
+
+        h1 {
+            
+            font-weight: bold;
+            color: black;
+        }
+        h2{
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            border-radius: 5px;
+            border: 1px solid #cccccc;
+        }
+
+        button:hover {
+            background: #091e34;
+        }
+        button {
+            background-color: #010b14;
+            color: white;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #image-container {
+            display: flex;
+            font-family: Arial, sans-serif;
+            justify-content: space-evenly;
+            margin-top: 20px;
+        }
+
+        img {
+            max-width: 400px;
+            height: auto;
+            transition: transform 0.3s;
+            margin-right: 20px; /* Adjusted margin to create a small distance */
+        }
+
+        img:hover {
+            transform: scale(1.5);
+        }
+    
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="upload-box">
+            <h1>Kidney Stone And Tumor Detection</h1>
+
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" id="file" accept="image/*" required>
+                <button type="submit">Submit</button>
+            </form>
+
+            <div id="image-container">
+                {% if input_image_base64_alexnet %}
+                    <div style="display: none;" class="image-div" data-delay="1000">
+                        <h2>Input Image</h2>
+                        <img src="{{ url_for('static', filename='uploaded_image.jpg') }}" alt="Input Image">
+                    </div>
+                {% endif %}
+
+                {% if grad_cam_base64_alexnet %}
+                    <div style="display: none;" class="image-div" data-delay="2000">
+                        <h2>Grad-CAM Heatmap</h2>
+                        <img src="{{ url_for('static', filename='grad_cam.jpg') }}" alt="Grad-CAM Heatmap">
+                    </div>
+                {% endif %}
+
+                {% if superimposed_img_base64_alexnet %}
+                    <div style="display: none;" class="image-div" data-delay="3000">
+                        <h2>Superimposed Image</h2>
+                        <img src="{{ url_for('static', filename='superimposed_image.jpg') }}" alt="Superimposed Image">
+                    </div>
+                {% endif %}
+            </div>
+            {% if predicted_label_alexnet %}
+                <h2>Predicted Label (AlexNet): {{ predicted_label_alexnet }}</h2>
+            {% endif %}
+
+        
+        </div>
+        <a href="/user_history"><button>Show History</button></a>
+        <a href="/login"><button>Go back to Login Page</button></a>
+    </div>
+
+    <script>
+        // Function to display images with a delay
+        function displayImagesWithDelay() {
+            const images = document.querySelectorAll('.image-div');
+            let delay = 0;
+            const delayIncrement = 1000; // 2 seconds in milliseconds
+        
+            images.forEach(image => {
+                setTimeout(() => {
+                    image.style.display = 'block';
+                }, delay);
+                delay += delayIncrement;
+            });
+        }
+        
+        // Call the function to display images with delay
+        displayImagesWithDelay();
+        
+    </script>
+</body>
+</html>

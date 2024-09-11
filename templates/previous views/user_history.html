@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            margin-bottom: 20px;
+        }
+
+        /* Center the table */
+        .table-container {
+            margin: 0 auto;
+            max-width: 70%; /* Adjust the maximum width as needed */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            background-color: #fff; /* Set background color to white */
+        }
+
+        th {
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Differentiate date, time, prediction type, and result */
+        .date-time {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .prediction-result {
+            text-transform: capitalize;
+            color: blue;
+            font-style: italic;
+            font-family: 'Times New Roman', Times, serif;
+            color: green;
+        }
+
+        /* Button styling */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <h1>User History</h1>
+
+    <!-- Center the table -->
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Date/Time</th>
+                <th>Prediction Result</th>
+            </tr>
+            {% for entry in history_data %}
+                <tr>
+                    <td class="date-time">{{ entry[0] }}</td>
+                    <td class="prediction-result">{{ entry[1] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Button container -->
+    <div class="button-container">
+        <!-- Go back to user page button -->
+        <a href="/user"><button>Go back to User Page</button></a>
+    </div>
+
+</body>
+</html>
